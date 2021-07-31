@@ -1,19 +1,19 @@
 package com.study.demo.zk;
 
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
-
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooKeeper;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 //连接zk并监听事件
 public class ZKDemo implements Watcher {
 	private static final CountDownLatch cdl = new CountDownLatch(1);
 
 	public static void main(String[] args) throws IOException {
-		ZooKeeper zk = new ZooKeeper("192.168.152.130:2181", 5000, new ZKDemo());
+		ZooKeeper zk = new ZooKeeper("localhost:2181", 5000, new ZKDemo());
 		System.out.println(zk.getState());
 
 		try {
