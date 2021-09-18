@@ -11,6 +11,10 @@ import java.util.concurrent.CountDownLatch;
 /**
  * 改变子节点并监听事件
  * 注：重写Watcher的process方法达到了循环监听的效果，即一次监听事件触发后监听器仍然生效。
+ * getChildren()方法上的提示如下：
+ * 如果该监视为true，并且调用成功(没有抛出异常)，则将在给定路径的节点上留下一个监视。
+ * 成功删除给定路径的节点或在该节点下创建/删除子节点的操作将触发监视。
+ * 返回的子列表不进行排序，并且不保证其自然顺序或词法顺序。
  */
 public class ZKChildrenDemo implements Watcher {
 	private static final CountDownLatch cdl = new CountDownLatch(1);
@@ -27,7 +31,11 @@ public class ZKChildrenDemo implements Watcher {
 		zk.getChildren("/zk-test", true);
 		zk.create("/zk-test/c1", "456".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
+		// 下面这几个操作都能触发监听器，因为重写了process方法，达到了循环监听的效果
 		zk.create("/zk-test/c2", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+		zk.create("/zk-test/c3", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+		zk.create("/zk-test/c4", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+		zk.create("/zk-test/c5", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
 		Thread.sleep(Integer.MAX_VALUE);
 	}

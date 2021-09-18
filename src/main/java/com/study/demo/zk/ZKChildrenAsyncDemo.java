@@ -33,13 +33,14 @@ public class ZKChildrenAsyncDemo implements Watcher {
 		if (zk.exists("/zk-test", true) == null) {
 			zk.create("/zk-test", "123".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		}
-
-		// 第一次创建子节点，不会触发监听器
+		// 开启监听器，传入回调事件
+		zk.getChildren("/zk-test", true, new ChildrenCallback(), "ok");
+		// 第一次创建子节点，触发监听器
 		zk.create("/zk-test/c1", "456".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
-		zk.getChildren("/zk-test", true, new ChildrenCallback(), "ok");
-
-		// 第二次创建子节点，触发监听器
+		// 关闭监听器，传入回调事件
+		zk.getChildren("/zk-test", false, new ChildrenCallback(), "ok");
+		// 第二次创建子节点，由于重写了process方法，达到循环监听的效果，因此也触发监听器
 		zk.create("/zk-test/c2", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 
 		Thread.sleep(Integer.MAX_VALUE);
@@ -53,6 +54,7 @@ public class ZKChildrenAsyncDemo implements Watcher {
 				cdl.countDown();
 			} else if (event.getType() == EventType.NodeChildrenChanged) {
 				try {
+					// 这里也开启监听，达到循环监听的效果
 					System.out.println("Child: " + zk.getChildren(event.getPath(), true));
 				} catch (Exception e) {
 				}
