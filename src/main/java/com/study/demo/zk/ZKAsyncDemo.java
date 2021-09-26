@@ -23,13 +23,13 @@ public class ZKAsyncDemo implements Watcher {
 		ZooKeeper zk = new ZooKeeper("localhost:2181", 5000, new ZKAsyncDemo());
 		cdl.await();
 
-		zk.create("/zk-test-", "123".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, new IStringCallback(),
+		zk.create("/zk-test-1", "123".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, new IStringCallback(),
 				new String("I am context"));
 
-		zk.create("/zk-test-", "456".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL,
+		zk.create("/zk-test-2", "456".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL,
 				new IStringCallback(), new String("I am context"));
 
-		zk.create("/zk-test-", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL,
+		zk.create("/zk-test-3", "789".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL,
 				new IStringCallback(), new String("I am context"));
 
 		Thread.sleep(Integer.MAX_VALUE);

@@ -1,7 +1,8 @@
 # zkdemo
-zookeper学习过程中的一些demo
+> fork from: https://github.com/leeSmall/zkdemo
+> Zookeeper系列学习：https://www.cnblogs.com/leeSmall/p/9563547.html  
 
-可以参考我的博客文章Zookeeper系列学习：https://www.cnblogs.com/leeSmall/p/9563547.html  
+主要通过这个 `Demo` 学习 `Zookeeper Java Api` 的相关操作。 
 
 com.study.demo.client  zookeeper的ZkClient客户端使用demo  
 com.study.demo.config zookeeper配置中心代码实现  
